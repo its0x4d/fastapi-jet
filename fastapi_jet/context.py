@@ -1,5 +1,6 @@
-from fastapi_jet.utils import name_fixer
 from pydantic.v1 import BaseModel, root_validator
+
+from fastapi_jet.utils import name_fixer
 
 
 class ProjectContext(BaseModel):
@@ -30,3 +31,10 @@ class AppContext(BaseModel):
     def validate_app(cls, values: dict):
         values["folder_name"] = values["name"].lower().replace(" ", "-").strip()
         return values
+
+
+class AppRoute(dict):
+    """
+    AppRoute class to register routers
+    """
+    pass

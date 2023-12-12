@@ -19,11 +19,11 @@ def app_list():
 
     main_core = __import__("base.main", fromlist=["main"])
     apps_table = []
-    for app_name, _ in main_core.INSTALLED_APPS:
+    for route in main_core.INSTALLED_APPS:
         apps_table += [
-            [app_name, f"apps/{app_name}/router.py"],
+            [route['name'], f"apps/{route['name']}/router.py"],
         ]
-    table = tabulate.tabulate(apps_table, headers=["App Name", "Router Path"], tablefmt="rounded_outline")
+    table = tabulate.tabulate(apps_table, headers=["App Name", "AppRoute Path"], tablefmt="rounded_outline")
     print(table)
     print('[!] If you cant see your app in the list, make sure you have added it to INSTALLED_APPS in app/main.py')
 
@@ -38,14 +38,14 @@ def routes_list(
 
     main_core = __import__("base.main", fromlist=["main"])
     main_routes = []
-    for installed_app, prefix in main_core.INSTALLED_APPS:
-        if app_name != "all" and installed_app != app_name:
+    for installed_app in main_core.INSTALLED_APPS:
+        if app_name != "all" and installed_app['name'] != app_name:
             continue
-        imported_app = __import__(f"{installed_app}.router", fromlist=["router"])
+        imported_app = __import__(f"apps.{installed_app['name']}.routers", fromlist=["router"])
         routes_table = []
         for route in imported_app.router.routes:
             routes_table.append([
-                installed_app,
+                installed_app['name'],
                 route.path,
                 ",".join(route.methods),
                 route.name,

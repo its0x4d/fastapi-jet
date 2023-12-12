@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from fastapi_jet.context import AppRoute
 from fastapi_jet.tools import include_routers, include_middlewares
 from .core import settings
 
@@ -8,8 +9,9 @@ app = FastAPI(title=settings.PROJECT_NAME)
 
 # The first element is the app name and the second element is the app's prefix.
 # To enable app routers, add them here along with their prefixes.
-# e.g. ("auth_app", "/v1/auth", ADD_TAGS_HERE)
+# e.g. AppRoute(name="auth_app", prefix="/v1/auth", tags=ADD_TAGS_HERE)
 INSTALLED_APPS = [
+    AppRoute(name="posts", prefix="/posts", tags=["posts"])
 ]
 
 
