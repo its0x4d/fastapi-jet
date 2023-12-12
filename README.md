@@ -7,7 +7,6 @@
 
 [![Package version](https://img.shields.io/pypi/v/fastapi-jet?color=%2334D058&label=pypi%20package)](https://pypi.org/project/fastapi-jet)
 [![Downloads](https://img.shields.io/pypi/dm/fastapi-jet)](https://pypi.org/project/fastapi-jet)
-[![Telegram](https://img.shields.io/badge/-telegram-red?color=white&logo=telegram&logoColor=blue)](https://t.me/Aggify)
 
 ## Introduction
 
