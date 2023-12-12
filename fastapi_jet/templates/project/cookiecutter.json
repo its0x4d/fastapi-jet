@@ -1,0 +1,6 @@
+{
+  "env": ".env",
+  "folder_name": "{{ cookiecutter.folder_name }}",
+  "name": "{{ cookiecutter.name }}",
+  "package_name": "{{ cookiecutter.package_name }}"
+}

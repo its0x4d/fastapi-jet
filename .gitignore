@@ -1,0 +1,36 @@
+# Ignore Python cache files
+__pycache__/
+
+# Ignore IDE-specific files and directories
+.idea/
+
+# Ignore virtual environment directories
+.venv/
+venv/
+env/
+ENV/
+
+# Ignore compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore logs and other build artifacts
+logs/
+*.log
+*.bak
+*.swp
+*.tmp
+
+# Ignore database files
+*.db
+*.sqlite
+
+# Ignore compiled binaries
+*.dll
+*.so
+*.dylib
+
+# Ignore package build directories
+build/
+dist/

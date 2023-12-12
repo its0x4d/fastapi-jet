@@ -1,0 +1,70 @@
+import sys
+
+import tabulate
+import typer
+
+from fastapi_jet.cli import app
+from fastapi_jet.constants import PROJECT_ROOT
+from fastapi_jet.decorators import fastapi_project
+
+sys.path.append(PROJECT_ROOT)
+
+
+@app.command(name="apps")
+@fastapi_project
+def app_list():
+    """
+    Show all apps
+    """
+
+    main_core = __import__("base.main", fromlist=["main"])
+    apps_table = []
+    for app_name, _ in main_core.INSTALLED_APPS:
+        apps_table += [
+            [app_name, f"{app_name}/router.py"],
+        ]
+    table = tabulate.tabulate(apps_table, headers=["App Name", "Router Path"], tablefmt="rounded_outline")
+    print(table)
+    print('[!] If you cant see your app in the list, make sure you have added it to INSTALLED_APPS in app/main.py')
+
+
+@app.command(name="routes")
+def routes_list(
+        app_name: str = typer.Option("all", "--app", "-a", help="Name of the app to list routes for"),
+):
+    """
+    Show routes for all apps or a specific app
+    """
+
+    main_core = __import__("base.main", fromlist=["main"])
+    main_routes = []
+    for installed_app, prefix in main_core.INSTALLED_APPS:
+        if app_name != "all" and installed_app != app_name:
+            continue
+        imported_app = __import__(f"{installed_app}.router", fromlist=["router"])
+        routes_table = []
+        for route in imported_app.router.routes:
+            routes_table.append([
+                installed_app,
+                route.path,
+                ",".join(route.methods),
+                route.name,
+                ", ".join([
+                    x.name for x in route.dependant.path_params
+                ])
+            ])
+        main_routes += routes_table
+
+    table = tabulate.tabulate(
+        main_routes,
+        headers=[
+            "App Name",
+            "Path",
+            "Methods",
+            "Name",
+            "Parameters"
+        ],
+        tablefmt="rounded_outline",
+
+    )
+    print(table)
