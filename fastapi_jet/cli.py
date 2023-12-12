@@ -12,7 +12,7 @@ except ImportError:
 
 app = typer.Typer(
     name="fastapi-jet",
-    help="FastAPI Admin - A tool to manage FastAPI projects",
+    help="FastAPI-Jet - A tool to manage FastAPI projects",
     add_completion=False,
     invoke_without_command=False,
     no_args_is_help=True,
