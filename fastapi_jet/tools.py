@@ -1,10 +1,10 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import typer
 from fastapi import FastAPI
 
 
-def include_routers(fast_api_app: FastAPI, installed_apps: list) -> None:
+def include_routers(fast_api_app: FastAPI, installed_apps: List[Tuple[str, str, List[str]]]) -> None:
     """
     This function is used to include routers from installed apps into the FastAPI application.
 
@@ -16,24 +16,32 @@ def include_routers(fast_api_app: FastAPI, installed_apps: list) -> None:
     :return: None
     """
     # Loop over the installed apps.
-    for app_name, prefix in installed_apps:
-        try:
-            # Try to import the router from the app.
-            _app = __import__(f"{app_name}.router", fromlist=["router"])
-        except ImportError:
-            # If the import fails, print an error message and raise the exception.
-            typer.echo(
-                f"[!] Unable to import {app_name}.router. Please make sure it exists and try again."
-            )
-            raise
-        # Check if the FastAPI application has a 'router' attribute.
-        if not hasattr(fast_api_app, "router"):
-            # If not, raise an AttributeError with a helpful error message.
-            raise AttributeError(
-                f"Router not found in {app_name}.router. Please add `router` attribute in {app_name}/router.py"
-            )
-        # Include the router from the app into the FastAPI application.
-        fast_api_app.include_router(_app.router, prefix=prefix)
+    try:
+        for app_name, prefix, tags in installed_apps:
+            try:
+                # Try to import the router from the app.
+                _app = __import__(f"apps.{app_name}.router", fromlist=["router"])
+            except ImportError:
+                # If the import fails, print an error message and raise the exception.
+                typer.echo(
+                    f"[!] Unable to import {app_name}.router. Please make sure it exists and try again."
+                )
+                raise
+            # Check if the FastAPI application has a 'router' attribute.
+            if not hasattr(fast_api_app, "router"):
+                # If not, raise an AttributeError with a helpful error message.
+                raise AttributeError(
+                    f"Router not found in {app_name}.router. Please add `router` attribute in {app_name}/router.py"
+                )
+            # Include the router from the app into the FastAPI application.
+            fast_api_app.include_router(_app.router, prefix=prefix, tags=tags)
+    except ValueError:
+        # If the 'installed_apps' list is empty, raise a ValueError with a helpful error message.
+        raise ValueError(
+            "To initialize an app, you need to define it in the INSTALLED_APPS"
+            "\ne.g. ('auth_app', '/v1/auth', ['auth_app.routers'])"
+            "\n OR: ('auth_app', '/v1/auth', None)"
+        )
 
 
 def include_middlewares(fast_api_app: FastAPI, middlewares: List[Tuple[str, dict]]) -> None:

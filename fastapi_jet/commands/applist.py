@@ -21,7 +21,7 @@ def app_list():
     apps_table = []
     for app_name, _ in main_core.INSTALLED_APPS:
         apps_table += [
-            [app_name, f"{app_name}/router.py"],
+            [app_name, f"apps/{app_name}/router.py"],
         ]
     table = tabulate.tabulate(apps_table, headers=["App Name", "Router Path"], tablefmt="rounded_outline")
     print(table)
