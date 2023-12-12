@@ -11,7 +11,7 @@ app = FastAPI(title=settings.PROJECT_NAME)
 # To enable app routers, add them here along with their prefixes.
 # e.g. AppRoute(name="auth_app", prefix="/v1/auth", tags=ADD_TAGS_HERE)
 INSTALLED_APPS = [
-    AppRoute(name="posts", prefix="/posts", tags=["posts"])
+
 ]
 
 
