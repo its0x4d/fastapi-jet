@@ -10,7 +10,7 @@ app = FastAPI(title=settings.PROJECT_NAME)
 # The first element is the app name and the second element is the app's prefix.
 # To enable app routers, add them here along with their prefixes.
 # e.g. AppRoute(name="auth_app", prefix="/v1/auth", tags=ADD_TAGS_HERE)
-INSTALLED_APPS = [
+ROUTERS = [
 
 ]
 
@@ -28,5 +28,5 @@ MIDDLEWARES = [
 
 # Include the middlewares in the FastAPI application.
 include_middlewares(fast_api_app=app, middlewares=MIDDLEWARES)
-# Include the routers from the installed apps in the FastAPI application.
-include_routers(fast_api_app=app, installed_apps=INSTALLED_APPS)
+# Include the routers in the FastAPI application.
+include_routers(fast_api_app=app, routers=ROUTERS)

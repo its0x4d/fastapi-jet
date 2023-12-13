@@ -42,7 +42,7 @@ def generate_template(template_name: str, context: Union[ProjectContext, AppCont
             f"[+] {template_name.capitalize()} [{context.folder_name}] created successfully!"
         )
         if template_name == "app":
-            text += f"\n[+] To get started, add your app to INSTALLED_APPS in app/main.py"
+            text += f"\n[+] To get started, add your app to ROUTERS in app/main.py"
         typer.echo(text)
 
     return os.path.join(os.getcwd(), context.folder_name)
