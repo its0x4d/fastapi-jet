@@ -5,21 +5,21 @@ from fastapi import FastAPI
 from fastapi_jet.context import AppRoute
 
 
-def include_routers(fast_api_app: FastAPI, routers: List[AppRoute], apps_path: str = "apps") -> None:
+def include_routers(fast_api_app: FastAPI, installed_apps: List[AppRoute], apps_path: str = "apps") -> None:
     """
     This function is used to include routers from the ROUTERS list in the main file.
 
     :param fast_api_app: The FastAPI application where the routers will be included.
     :type fast_api_app: FastAPI
-    :param routers: A list of AppRoute objects, where each object contains the name of an app
-    :type routers: list
+    :param installed_apps: A list of AppRoute objects, where each object contains the name of an app
+    :type installed_apps: list
     :param apps_path: The path to the apps' folder. Defaults to "apps".
     :type apps_path: str, optional
     :return: None
     """
-    for route in routers:
+    for route in installed_apps:
         route_module = f"{route['name']}.routers" if apps_path == '.' else f"{apps_path}.{route['name']}.routers"
-        _route = __import__(route_module, fromlist=["router"]).__dict__["router"]
+        _route = __import__(route_module, fromlist=["router"])
         route = route.copy()
         route.pop('name')
         fast_api_app.include_router(_route.router, **route)

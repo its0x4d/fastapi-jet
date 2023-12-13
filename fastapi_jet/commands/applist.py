@@ -19,7 +19,7 @@ def app_list():
 
     main_core = __import__("base.main", fromlist=["main"])
     apps_table = []
-    for route in main_core.ROUTERS:
+    for route in main_core.INSTALLED_APPS:
         apps_table += [
             [route['name'], f"apps/{route['name']}/router.py"],
         ]
@@ -38,7 +38,7 @@ def routes_list(
 
     main_core = __import__("base.main", fromlist=["main"])
     main_routes = []
-    for _route in main_core.ROUTERS:
+    for _route in main_core.INSTALLED_APPS:
         if app_name != "all" and _route['name'] != app_name:
             continue
         imported_app = __import__(f"apps.{_route['name']}.routers", fromlist=["router"])
