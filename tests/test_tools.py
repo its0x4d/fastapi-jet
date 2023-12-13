@@ -1,10 +1,8 @@
-import unittest
+from fastapi import FastAPI
+from fastapi_jet.tools import include_routers
+from fastapi_jet.context import AppRoute
 
 
-class MyTestCase(unittest.TestCase):
-    def test_something(self):
-        self.assertEqual(True, False)  # add assertion here
-
-
-if __name__ == '__main__':
-    unittest.main()
+def test_app():
+    app = FastAPI(title="FastAPI Jet")
+    assert app.title == "FastAPI Jet"
