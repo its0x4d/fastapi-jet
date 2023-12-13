@@ -7,34 +7,21 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  test:
     strategy:
       matrix:
         python-version: [3.8, 3.9, 3.10, 3.11]
-
+        poetry-version: [1.7.1]
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-
-    - name: Configure Poetry
-      run: |
-        $HOME/.local/bin/poetry config virtualenvs.create false
-
-    - name: Install dependencies
-      run: |
-        $HOME/.local/bin/poetry install
-
-    - name: Run tests
-      run: |
-        $HOME/.local/bin/poetry run pytest
+      - name: Check out the repository
+        uses: actions/checkout@v3
+      - name: "Setup Python, Poetry and Dependencies"
+        uses: packetcoders/action-setup-cache-python-poetry@main
+        with:
+          python-version: ${{matrix.python-version}}
+          poetry-version: ${{matrix.poetry-version}}
+  
+      - name: Run tests
+        run: |
+          poetry run pytest
