@@ -24,6 +24,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
         poetry-version: '1.7.1'  # Specify the desired Poetry version
 
+    - name: Create and Activate Virtual Environment
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+
     - name: Install dependencies
       run: poetry install
 
