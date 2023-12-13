@@ -1,10 +1,10 @@
 import os
-from enum import EnumType
+from enum import Enum
 from typing import List
 import questionary
 
 
-def enum_question(choices: EnumType) -> questionary.Question:
+def enum_question(choices: Enum) -> questionary.Question:
     """
     This function is used to present a question with multiple choices to the user.
 
