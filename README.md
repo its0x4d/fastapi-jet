@@ -7,7 +7,7 @@
 
 [![Package version](https://img.shields.io/pypi/v/fastapi-jet?color=%2334D058&label=pypi%20package)](https://pypi.org/project/fastapi-jet)
 [![Downloads](https://img.shields.io/pypi/dm/fastapi-jet)](https://pypi.org/project/fastapi-jet)
-
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/fastapi-jet)](https://pypi.org/project/fastapi-jet)
 ## Introduction
 
 FastAPI-Jet offers a streamlined way to manage your FastAPI applications. With an array of commands and a user-friendly interface, it simplifies the development and administration of your FastAPI projects.
