@@ -7,21 +7,25 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  build:
+
+    runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10, 3.11]
-        poetry-version: [1.7.1]
-    runs-on: ubuntu-latest
+        python-version: [3.7, 3.8, 3.9, 3.10, 3.11]
+
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v3
-      - name: "Setup Python, Poetry and Dependencies"
-        uses: packetcoders/action-setup-cache-python-poetry@main
-        with:
-          python-version: ${{matrix.python-version}}
-          poetry-version: ${{matrix.poetry-version}}
-  
-      - name: Run tests
-        run: |
-          poetry run pytest
+    - uses: actions/checkout@v2
+
+    - name: Setup Python and Poetry
+      uses: packetcoders/action-setup-cache-python-poetry@main
+      with:
+        python-version: ${{ matrix.python-version }}
+        poetry-version: '1.7.1'  # Specify the desired Poetry version
+
+    - name: Install dependencies
+      run: poetry install
+
+    - name: Run tests
+      run: poetry run pytest
