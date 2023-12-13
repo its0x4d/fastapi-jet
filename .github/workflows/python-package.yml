@@ -18,19 +18,28 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup Python and Poetry
-      uses: packetcoders/action-setup-cache-python-poetry@main
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-        poetry-version: '1.7.1'  # Specify the desired Poetry version
 
-    - name: Create and Activate Virtual Environment
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+
+    - name: Create Virtual Environment
       run: |
         python -m venv .venv
+
+    - name: Activate Virtual Environment
+      shell: bash
+      run: |
         source .venv/bin/activate
 
     - name: Install dependencies
-      run: poetry install
+      run: |
+        poetry install
 
     - name: Run tests
-      run: poetry run pytest
+      run: |
+        poetry run pytest
