@@ -8,6 +8,7 @@
 [![Package version](https://img.shields.io/pypi/v/fastapi-jet?color=%2334D058&label=pypi%20package)](https://pypi.org/project/fastapi-jet)
 [![Downloads](https://img.shields.io/pypi/dm/fastapi-jet)](https://pypi.org/project/fastapi-jet)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/fastapi-jet)](https://pypi.org/project/fastapi-jet)
+[![Telegram](https://img.shields.io/badge/Telegram-join%20chat-blue.svg)](https://t.me/fastapi_jet)
 ## Introduction
 
 FastAPI-Jet is an innovative toolkit designed to enhance the FastAPI development experience. This comprehensive suite provides a range of utilities, custom decorators, command-line interface (CLI) commands, and sophisticated content generation tools. Ideal for developers aiming to optimize their workflow, FastAPI-Jet not only streamlines project development but also aids in improving code quality and boosting the performance of FastAPI applications. Embrace the power of FastAPI-Jet and elevate your web development capabilities to new heights.
