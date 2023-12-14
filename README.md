@@ -2,7 +2,7 @@
   <img src="https://i.ibb.co/z7TNsRL/DALL-E-2023-12-12-15-33-36-A-modern-and-sleek-logo-for-a-web-development-project-named-Fast-API-Jet.png" alt="FastAPI-Jet" width="300" />
 </p>
 <p align="center">
-    <em>FastAPI-Jet is a modern, fast web administration interface designed to work with FastAPI. It is built to provide an intuitive and easy-to-use interface for managing your FastAPI applications.</em>
+    <em>FastAPI-Jet is a comprehensive toolkit for FastAPI applications, providing a suite of utilities, custom decorators, CLI commands, and content generation tools to enhance development efficiency and performance.</em>
 </p>
 
 [![Package version](https://img.shields.io/pypi/v/fastapi-jet?color=%2334D058&label=pypi%20package)](https://pypi.org/project/fastapi-jet)
@@ -10,7 +10,7 @@
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/fastapi-jet)](https://pypi.org/project/fastapi-jet)
 ## Introduction
 
-FastAPI-Jet offers a streamlined way to manage your FastAPI applications. With an array of commands and a user-friendly interface, it simplifies the development and administration of your FastAPI projects.
+FastAPI-Jet is an innovative toolkit designed to enhance the FastAPI development experience. This comprehensive suite provides a range of utilities, custom decorators, command-line interface (CLI) commands, and sophisticated content generation tools. Ideal for developers aiming to optimize their workflow, FastAPI-Jet not only streamlines project development but also aids in improving code quality and boosting the performance of FastAPI applications. Embrace the power of FastAPI-Jet and elevate your web development capabilities to new heights.
 
 ## Features
 
