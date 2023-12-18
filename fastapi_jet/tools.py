@@ -18,6 +18,7 @@ def include_routers(fast_api_app: FastAPI, installed_apps: List[AppRoute], apps_
     :return: None
     """
     for route in installed_apps:
+        apps_path = apps_path.replace("/", ".")
         route_module = f"{route['name']}.routers" if apps_path == '.' else f"{apps_path}.{route['name']}.routers"
         _route = __import__(route_module, fromlist=["router"])
         route = route.copy()
@@ -36,7 +37,6 @@ def include_middlewares(fast_api_app: FastAPI, middlewares: List[Tuple[str, dict
     :type middlewares: list
     :return: None
     """
-    # Loop over the middlewares.
     for middleware_name, middleware_config in middlewares:
         _middleware_class = middleware_name.split(".")[-1]
         _middleware_module = middleware_name.replace(f".{_middleware_class}", "")
