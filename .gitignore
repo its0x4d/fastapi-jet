@@ -2,6 +2,9 @@
 __pycache__/
 __pycache__/*
 
+.pytest_cache/
+.pytest_cache/*
+
 # Ignore IDE-specific files and directories
 .idea/
 
@@ -36,3 +39,9 @@ logs/
 # Ignore package build directories
 build/
 dist/
+
+# Ignore compress files
+*.zip
+*.rar
+*.gz
+*.tar.gz
