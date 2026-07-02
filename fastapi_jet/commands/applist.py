@@ -1,70 +1,59 @@
-import sys
-
 import tabulate
 import typer
 
 from fastapi_jet.cli import app
-from fastapi_jet.constants import PROJECT_ROOT
 from fastapi_jet.decorators import fastapi_project
-
-sys.path.append(PROJECT_ROOT)
+from fastapi_jet.project import load_main_module
+from fastapi_jet.routes_display import collect_route_rows
 
 
 @app.command(name="apps")
 @fastapi_project
-def app_list():
-    """
-    Show all apps
-    """
-
-    main_core = __import__("base.main", fromlist=["main"])
-    apps_table = []
-    for route in main_core.INSTALLED_APPS:
-        apps_table += [
-            [route['name'], f"apps/{route['name']}/router.py"],
+def app_list() -> None:
+    """List installed apps."""
+    main_module = load_main_module()
+    apps_table = [
+        [
+            route["name"],
+            route.get("prefix", ""),
+            f"apps/{route['name']}/routers.py",
         ]
-    table = tabulate.tabulate(apps_table, headers=["App Name", "AppRoute Path"], tablefmt="rounded_outline")
-    print(table)
-    print('[!] If you cant see your app in the list, make sure you have added it to ROUTERS in app/main.py')
+        for route in main_module.INSTALLED_APPS
+    ]
+    typer.echo(
+        tabulate.tabulate(
+            apps_table,
+            headers=["App Name", "Prefix", "Router Path"],
+            tablefmt="rounded_outline",
+        )
+    )
+    typer.echo(
+        "[!] Missing an app? Register it in INSTALLED_APPS in base/main.py"
+    )
 
 
 @app.command(name="routes")
+@fastapi_project
 def routes_list(
-        app_name: str = typer.Option("all", "--app", "-a", help="Name of the app to list routes for"),
-):
-    """
-    Show routes for all apps or a specific app
-    """
-
-    main_core = __import__("base.main", fromlist=["main"])
-    main_routes = []
-    for _route in main_core.INSTALLED_APPS:
-        if app_name != "all" and _route['name'] != app_name:
-            continue
-        imported_app = __import__(f"apps.{_route['name']}.routers", fromlist=["router"])
-        routes_table = []
-        for route in imported_app.router.routes:
-            routes_table.append([
-                _route['name'],
-                route.path,
-                ",".join(route.methods),
-                route.name,
-                ", ".join([
-                    x.name for x in route.dependant.path_params
-                ])
-            ])
-        main_routes += routes_table
-
-    table = tabulate.tabulate(
-        main_routes,
-        headers=[
-            "App Name",
-            "Path",
-            "Methods",
-            "Name",
-            "Parameters"
-        ],
-        tablefmt="rounded_outline",
-
+    app_name: str = typer.Option(
+        "all", "--app", "-a", help="App name to filter routes"
+    ),
+) -> None:
+    """List routes for all apps or one app."""
+    main_module = load_main_module()
+    rows = collect_route_rows(main_module.INSTALLED_APPS, app_name=app_name)
+    typer.echo(
+        tabulate.tabulate(
+            rows,
+            headers=[
+                "App",
+                "Path",
+                "Methods",
+                "Name",
+                "Tags",
+                "Deps",
+                "Parameters",
+            ],
+            tablefmt="rounded_outline",
+        )
     )
-    print(table)

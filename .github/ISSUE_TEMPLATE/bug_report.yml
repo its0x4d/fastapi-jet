@@ -1,0 +1,29 @@
+---
+name: Bug report
+about: Report a problem with FastAPI-Jet
+title: "[Bug]: "
+labels: bug
+---
+
+## Description
+
+<!-- What went wrong? -->
+
+## Steps to reproduce
+
+1.
+2.
+
+## Expected behavior
+
+## Actual behavior
+
+## Environment
+
+- OS:
+- Python version:
+- fastapi-jet version (`fastjet --version`):
+
+## Additional context
+
+<!-- Logs, screenshots, generated project layout, etc. -->

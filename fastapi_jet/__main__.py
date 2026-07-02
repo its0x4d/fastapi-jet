@@ -1,4 +1,4 @@
-from fastapi_jet import cli, __app_name__
+from fastapi_jet import __app_name__, cli
 
 
 def main():

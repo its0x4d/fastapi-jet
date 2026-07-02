@@ -1,12 +1,21 @@
 # Ignore Python cache files
 __pycache__/
-__pycache__/*
+*.py[cod]
+*$py.class
 
+# Test and lint caches
 .pytest_cache/
-.pytest_cache/*
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+coverage.xml
 
 # Ignore IDE-specific files and directories
 .idea/
+.vscode/
+*.swp
+*.swo
 
 # Ignore virtual environment directories
 .venv/
@@ -15,16 +24,10 @@ venv/
 env/
 ENV/
 
-# Ignore compiled Python files
-*.pyc
-*.pyo
-*.pyd
-
 # Ignore logs and other build artifacts
 logs/
 *.log
 *.bak
-*.swp
 *.tmp
 
 # Ignore database files
@@ -36,12 +39,30 @@ logs/
 *.so
 *.dylib
 
-# Ignore package build directories
+# Packaging
 build/
 dist/
+*.egg-info/
 
-# Ignore compress files
+# Archives
 *.zip
 *.rar
 *.gz
 *.tar.gz
+
+# Cursor local state (rules in .cursor/rules/ are tracked)
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+
+# Local-only planning (not published)
+DEVELOPMENT_PLAN.md
+
+# Local generated test projects
+myapi/
+
+# MkDocs build output
+site/
+
+# Sandbox / temp pytest dirs
+pytest-cache-files-*/

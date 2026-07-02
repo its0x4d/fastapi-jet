@@ -1,0 +1,6 @@
+{
+  "folder_name": "{{ cookiecutter.folder_name }}",
+  "name": "{{ cookiecutter.name }}",
+  "class_name": "{{ cookiecutter.class_name }}",
+  "module_name": "{{ cookiecutter.module_name }}"
+}

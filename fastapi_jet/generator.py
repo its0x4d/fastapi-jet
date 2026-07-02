@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from typing import Union
 
 import typer
@@ -6,43 +6,43 @@ from cookiecutter.exceptions import OutputDirExistsException
 from cookiecutter.main import cookiecutter
 
 from fastapi_jet.constants import TEMPLATES_DIR
-from fastapi_jet.context import ProjectContext, AppContext
+from fastapi_jet.context import AppContext, ProjectContext
 
 
-def generate_template(template_name: str, context: Union[ProjectContext, AppContext]) -> str:
-    """
-    This function is used to generate a template using the cookiecutter library.
+def _is_app_template(template_name: str) -> bool:
+    return template_name == "app" or template_name.startswith("app-")
 
-    :param template_name: The name of the template to generate.
-    :type template_name: str
-    :param context: An object that contains the context for the template.
-        This can be either a ProjectContext or an AppContext.
-    :type context: Union[ProjectContext, AppContext]
-    :return: The path to the generated template.
-    :rtype: str
-    """
+
+def _output_path(template_name: str, folder_name: str, cwd: Path) -> Path:
+    if _is_app_template(template_name):
+        return cwd / "apps" / folder_name
+    return cwd / folder_name
+
+
+def generate_template(
+    template_name: str, context: Union[ProjectContext, AppContext]
+) -> Path | None:
+    cwd = Path.cwd()
+    output_path = _output_path(template_name, context.folder_name, cwd)
+
+    cookiecutter_kwargs = {
+        "template": str(TEMPLATES_DIR / template_name),
+        "no_input": True,
+        "extra_context": context.model_dump(),
+        "overwrite_if_exists": False,
+    }
+    if _is_app_template(template_name):
+        cookiecutter_kwargs["output_dir"] = str(cwd / "apps")
+
     try:
-        # Generate the template using the cookiecutter library. in 'apps' folder
-        data = {
-            'template': os.path.join(TEMPLATES_DIR, template_name),
-            'no_input': True,
-            'extra_context': context.dict(),
-        }
-        if template_name == "app":
-            data['output_dir'] = os.path.join(os.getcwd(), 'apps')
-        cookiecutter(**data)
-
+        cookiecutter(**cookiecutter_kwargs)
     except OutputDirExistsException:
         typer.echo(
-            f"[!] Unable to create FastAPI {template_name}! An app with the same name already exists!"
-            f"\n[+] Please choose a different name or delete the existing app and try again."
+            "[!] Unable to create FastAPI app! "
+            "An item with the same name already exists.\n"
+            "[+] Choose a different name or delete the existing one and try again."
         )
-    else:
-        text = (
-            f"[+] {template_name.capitalize()} [{context.folder_name}] created successfully!"
-        )
-        if template_name == "app":
-            text += f"\n[+] To get started, add your app to ROUTERS in app/main.py"
-        typer.echo(text)
+        return None
 
-    return os.path.join(os.getcwd(), context.folder_name)
+    typer.echo(f"[+] App [{context.folder_name}] created successfully!")
+    return output_path

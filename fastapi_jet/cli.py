@@ -1,56 +1,52 @@
 import importlib
-import os
-from typing import Optional
+from importlib.metadata import PackageNotFoundError, version
 
-import pkg_resources
 import typer
 
-try:
-    import fastapi
-except ImportError:
-    raise ImportError("FastAPI is not installed. Please install it with: pip install fastapi")
+from fastapi_jet.constants import COMMANDS_DIR
 
 app = typer.Typer(
     name="fastapi-jet",
-    help="FastAPI-Jet - A tool to manage FastAPI projects",
+    help="FastAPI-Jet - modular FastAPI project management",
     add_completion=False,
     invoke_without_command=False,
     no_args_is_help=True,
 )
 
 
+def _get_version() -> str:
+    try:
+        return version("fastapi-jet")
+    except PackageNotFoundError:
+        from fastapi_jet import __version__
+
+        return __version__
+
+
 def _version_callback(value: bool) -> None:
-    """
-    Callback for the --version option.
-    :return:
-    """
     if value:
-        package = pkg_resources.get_distribution("fastapi-jet")
-        typer.echo(f"{package.project_name} {package.version}")
+        typer.echo(f"fastapi-jet {_get_version()}")
         raise typer.Exit()
 
 
 def _register_commands() -> None:
-    """
-    Register all the commands.
-    """
-    for command in os.listdir(os.path.join(os.path.dirname(__file__), "commands")):
-        if command.endswith(".py") and not command.startswith("__"):
-            importlib.import_module(f"fastapi_jet.commands.{command[:-3]}")
+    for command_file in COMMANDS_DIR.iterdir():
+        if command_file.suffix == ".py" and not command_file.name.startswith("__"):
+            importlib.import_module(f"fastapi_jet.commands.{command_file.stem}")
 
 
 @app.callback()
 def main(
-        version: Optional[bool] = typer.Option(
-            None,
-            "--version",
-            "-v",
-            help="Show the application's version and exit.",
-            callback=_version_callback,
-            is_eager=True,
-        )
+    version: bool | None = typer.Option(
+        None,
+        "--version",
+        "-v",
+        help="Show the application's version and exit.",
+        callback=_version_callback,
+        is_eager=True,
+    ),
 ) -> None:
-    ...
+    """Manage modular FastAPI projects with a Django-inspired workflow."""
 
 
 _register_commands()

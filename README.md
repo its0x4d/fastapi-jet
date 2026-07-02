@@ -1,77 +1,125 @@
 <p align="center">
   <img src="https://i.ibb.co/z7TNsRL/DALL-E-2023-12-12-15-33-36-A-modern-and-sleek-logo-for-a-web-development-project-named-Fast-API-Jet.png" alt="FastAPI-Jet" width="300" />
 </p>
-<p align="center">
-    <em>FastAPI-Jet is a comprehensive toolkit for FastAPI applications, providing a suite of utilities, custom decorators, CLI commands, and content generation tools to enhance development efficiency and performance.</em>
-</p>
+
+<p align="center"><em>Django's structure. FastAPI's speed.</em></p>
 
 [![Package version](https://img.shields.io/pypi/v/fastapi-jet?color=%2334D058&label=pypi%20package)](https://pypi.org/project/fastapi-jet)
 [![Downloads](https://img.shields.io/pypi/dm/fastapi-jet)](https://pypi.org/project/fastapi-jet)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/fastapi-jet)](https://pypi.org/project/fastapi-jet)
 [![Telegram](https://img.shields.io/badge/Telegram-join%20chat-blue.svg)](https://t.me/fastapi_jet)
-## Introduction
 
-FastAPI-Jet is an innovative toolkit designed to enhance the FastAPI development experience. This comprehensive suite provides a range of utilities, custom decorators, command-line interface (CLI) commands, and sophisticated content generation tools. Ideal for developers aiming to optimize their workflow, FastAPI-Jet not only streamlines project development but also aids in improving code quality and boosting the performance of FastAPI applications. Embrace the power of FastAPI-Jet and elevate your web development capabilities to new heights.
+## What is FastAPI-Jet?
 
-## Features
+**FastAPI-Jet** helps you build and manage **modular, multi-app FastAPI projects** with a familiar, Django-inspired workflow.
 
-1. **Command Line Interface (CLI):** `fastapi-jet` includes a CLI for easy management and interaction with FastAPI projects.
-2. **Project Generation:** Automated generation of project structure, adhering to best practices in FastAPI development.
-3. **Context Management:** Provides utilities for context management within FastAPI applications.
-4. **Decorator Utilities:** A set of decorators to simplify common tasks in FastAPI.
-5. **Template Integration:** In-built support for various templates to accelerate development.
-6. **Utility Functions:** A collection of utility functions designed to enhance FastAPI functionality.
+It is **not** a full-stack generator. It is a **structure and CLI** tool for teams who want clear app boundaries and commands that stay useful after day one.
 
-## Installation
+## Who is it for?
 
-To install `fastapi-jet`, you need to have Python installed on your system. Then you can install the library using pip. Below are the steps for installation:
+- Teams outgrowing a single `main.py`
+- Developers coming from Django who want `startproject` / `startapp`
+- Tech leads defining a consistent FastAPI layout
+
+## Quick start
 
 ```bash
-# Install fastapi-jet via pip
 pip install fastapi-jet
-```
 
-## Usage
+# Create a project
+fastjet startproject myapi
+cd myapi
 
-- **CLI:** The CLI can be used to generate a new project, create a new app, and run the application. The CLI can be accessed using the `jet` command.
-
-```bash 
-# Create a new project
-fastjet startproject <project_name>
-```
-```bash
-# Create a new app
-fastjet startapp <app_name>
-```
-```bash
-# Run the application
+# Install and run (generated project is self-contained)
+pip install -e ".[dev]"
 fastjet runserver
 ```
 
+Visit http://127.0.0.1:8000/docs — you'll see a `/health` endpoint and a sample `core` app at `/core/`.
+
+## CLI commands
+
+| Command | Description |
+|---------|-------------|
+| `fastjet startproject <name>` | Create a modular project skeleton |
+| `fastjet startapp <name>` | Add a new app under `apps/` |
+| `fastjet startapp <name> --crud` | App with schemas, services, dependencies |
+| `fastjet startapp <name> --versioned` | `/v1/<name>` prefix pattern |
+| `fastjet startapp <name> --register` | Auto-add to `INSTALLED_APPS` (AST-safe) |
+| `fastjet runserver` | Run the dev server (Uvicorn) |
+| `fastjet apps` | List registered apps |
+| `fastjet routes` | Show the full route map (tags, deps) |
+| `fastjet check` | Validate structure, imports, and settings |
+| `fastjet shell` | REPL with `app` and `settings` loaded |
+
+Aliases: `fastapi-jet` and `fastjet`.
+
+## Project layout
+
+```
+myapi/
+├── base/
+│   ├── main.py       # FastAPI app + INSTALLED_APPS
+│   ├── core.py       # Settings
+│   └── routing.py    # Router registration (no runtime jet dependency)
+├── apps/
+│   └── core/         # Sample app included in new projects
+├── tests/
+├── pyproject.toml
+└── .fastapi-jet      # Project marker
+```
+
+### Adding a feature
+
+```bash
+fastjet startapp users
+fastjet startapp billing --crud --register
+fastjet startapp api --versioned
+```
+
+With `--register`, the app is added to `INSTALLED_APPS` in `base/main.py` automatically (AST-safe). Without it, the CLI prints the line to paste manually.
+
+Register manually in `base/main.py` if you prefer:
+
+```python
+INSTALLED_APPS: list[AppRoute] = [
+    AppRoute(name="core", prefix="/core", tags=["core"]),
+    AppRoute(name="users", prefix="/users", tags=["users"]),
+]
+```
+
+Then inspect your API:
+
+```bash
+fastjet routes
+```
+
+## What FastAPI-Jet is not
+
+- Not a "generate my entire SaaS" tool — try [fastapi-forge](https://github.com/nwyrwas/fastapi-forge) or [fastapi-spawn](https://github.com/Bishwajitgarai/fastapi-spawn)
+- Not zero-opinion raw FastAPI — use FastAPI directly if you want no structure
+- Not schema-first codegen — try [feathers](https://github.com/Abdul-Muizz1310/feathers)
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/CONVENTIONS.md](docs/CONVENTIONS.md) for app layer structure and workflow.
+
 ## Contributing
 
-Contributions are welcome and appreciated! Here's a quick guide on how you can contribute:
+Contributions are welcome. Before opening a PR:
 
-- Fork and Clone: Fork the project on GitHub, then clone your fork.
-- Create a Branch: Make a new branch for your changes.
-- Make Changes: Work on your feature, bug fix, or documentation improvement.
-- Test Your Changes: Ensure your changes work as expected.
-- Commit and Push: Commit your changes and push them to your branch.
-- Create a Pull Request: Submit a pull request (PR) to the main project.
+```bash
+pip install -e .
+pip install pytest ruff pre-commit
+ruff check .
+pytest
+pre-commit run --all-files
+```
 
-Your PRs should be clear and concise, explaining what the changes are and why they're needed.
+See `.cursor/rules/fastapi-jet.mdc` for project conventions.
 
-We appreciate all your contributions, big or small!
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT — see [LICENSE](LICENSE).
 
 ## Acknowledgements
 
-This project draws inspiration from a blend of established and innovative web development practices. We extend our heartfelt gratitude to the following sources:
-
-- **Django Admin:** Our project is notably influenced by the Django Admin framework. Django's robust and versatile approach to web application administration has been a guiding force in shaping our architectural and design decisions.
-
-- **FastAPI Manager:** We also owe a debt of gratitude to the [manage-fastapi](https://github.com/ycd/manage-fastapi) project on GitHub. This resource has been instrumental in our understanding and implementation of FastAPI-specific features and methodologies.
-
-The integration of ideas from these sources has been pivotal in the development of our project. We are deeply appreciative of the open-source community and its contributors for their pioneering work, which continues to inspire and revolutionize the field of web development.
+Inspired by Django's project/app model and the [manage-fastapi](https://github.com/ycd/manage-fastapi) project.

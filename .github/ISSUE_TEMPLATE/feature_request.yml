@@ -1,0 +1,21 @@
+---
+name: Feature request
+about: Suggest an idea for FastAPI-Jet
+title: "[Feature]: "
+labels: enhancement
+---
+
+## Problem
+
+<!-- What pain point does this solve? -->
+
+## Proposed solution
+
+<!-- Describe the CLI command, template change, or workflow improvement. -->
+
+## Alternatives considered
+
+## Alignment with project scope
+
+FastAPI-Jet focuses on **modular app structure and day-2 CLI**, not full-stack codegen.
+Does this fit that scope? (yes/no and why)

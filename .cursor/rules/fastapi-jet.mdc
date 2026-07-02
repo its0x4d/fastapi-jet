@@ -1,0 +1,52 @@
+---
+description: FastAPI-Jet project standards for contributors and AI agents
+alwaysApply: true
+---
+
+# FastAPI-Jet contribution standards
+
+## Positioning
+
+Modular FastAPI with a Django-inspired workflow. Optimize for day-2 structure, not full-stack codegen.
+
+## Architecture rules
+
+- Generated projects must **not** import `fastapi-jet` at runtime
+- Routing bootstrap lives in `base/routing.py` (template) and `fastapi_jet/tools.py` (tests/back-compat) — **keep both in sync**
+- Use `fastapi_jet.project` for cwd/sys.path/main-module loading in CLI commands
+- Never capture `os.getcwd()` at import time; call `Path.cwd()` or `get_project_root()` at runtime
+
+## Code quality
+
+- Run `ruff check .` and `pytest` before opening a PR
+- Prefer `importlib.import_module` over `__import__`
+- Use `Path` for filesystem checks; use `str.translate` for bulk character replacement
+- Trim verbose docstrings; code should be self-explanatory
+- Minimize scope — no drive-by refactors or unrelated features
+
+## CLI conventions
+
+- Project-only commands use `@fastapi_project` and exit with code `1` on failure
+- User-facing paths: `base/main.py`, `apps/<name>/routers.py`, `INSTALLED_APPS`
+- Typer help text must match actual file/command names
+
+## Tests
+
+- Add tests for new commands and bug fixes
+- Use `typer.testing.CliRunner` for CLI integration tests
+- Template integration tests: set `HOME` to `tmp_path` for cookiecutter replay writes
+- Mock external IO when unit-testing — cookiecutter integration uses real templates
+
+## Generated project template
+
+- New projects include: `pyproject.toml`, `.fastapi-jet`, sample `core` app, `/health`, pytest scaffold
+- App templates: `app`, `app-crud`, `app-versioned`, `app-crud-versioned` — keep routing logic in sync with `fastapi_jet/tools.py`
+- Validation logic lives in `fastapi_jet/checks.py`; `jet check` must stay in sync with template layout
+- `INSTALLED_APPS` auto-registration lives in `fastapi_jet/register.py` (AST only, never regex)
+- App conventions documented in `docs/CONVENTIONS.md`
+
+## What not to add
+
+- Full-stack generators (`jet add stripe`, DB wizards) unless strategy changes
+- Runtime dependency on the CLI package inside generated projects
+- Over-abstracted one-line helpers

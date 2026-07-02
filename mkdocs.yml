@@ -1,0 +1,12 @@
+site_name: FastAPI-Jet
+site_url: https://github.com/its0x4d/fastapi-jet
+repo_url: https://github.com/its0x4d/fastapi-jet
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Conventions: CONVENTIONS.md
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
