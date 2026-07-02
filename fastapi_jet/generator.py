@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Union
 
 import typer
 from cookiecutter.exceptions import OutputDirExistsException
@@ -20,7 +19,7 @@ def _output_path(template_name: str, folder_name: str, cwd: Path) -> Path:
 
 
 def generate_template(
-    template_name: str, context: Union[ProjectContext, AppContext]
+    template_name: str, context: ProjectContext | AppContext
 ) -> Path | None:
     cwd = Path.cwd()
     output_path = _output_path(template_name, context.folder_name, cwd)

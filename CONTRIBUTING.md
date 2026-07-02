@@ -20,7 +20,7 @@ ruff check .
 pytest
 ```
 
-CI must pass on Python 3.9–3.13.
+CI must pass on Python 3.10–3.13.
 
 ## Project structure
 

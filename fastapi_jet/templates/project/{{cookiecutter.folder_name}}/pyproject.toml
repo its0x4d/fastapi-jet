@@ -3,7 +3,7 @@ name = "{{ cookiecutter.package_name }}"
 version = "0.1.0"
 description = "{{ cookiecutter.name }} — a modular FastAPI project"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.105.0",
     "uvicorn[standard]>=0.24.0",
