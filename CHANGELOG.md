@@ -41,7 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cleaner CLI startup (removed redundant FastAPI import guard)
 - `name_fixer` uses `str.translate` for single-pass sanitization
 - `importlib.import_module` replaces `__import__` across routing utilities
-- Added `.cursor/rules/fastapi-jet.mdc` contributor standards for AI and humans
 - Minimum supported Python raised to 3.10 (CI matrix: 3.10–3.13)
 
 ### Fixed

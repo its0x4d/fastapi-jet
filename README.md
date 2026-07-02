@@ -114,7 +114,7 @@ pytest
 pre-commit run --all-files
 ```
 
-See `.cursor/rules/fastapi-jet.mdc` for project conventions.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/CONVENTIONS.md](docs/CONVENTIONS.md) for project conventions.
 
 ## License
 

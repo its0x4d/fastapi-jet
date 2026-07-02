@@ -50,10 +50,8 @@ dist/
 *.gz
 *.tar.gz
 
-# Cursor local state (rules in .cursor/rules/ are tracked)
-.cursor/*
-!.cursor/rules/
-!.cursor/rules/**
+# IDE / editor local state
+.cursor/
 
 # Local-only planning (not published)
 DEVELOPMENT_PLAN.md
