@@ -14,7 +14,7 @@ def test_cli_version():
     result = runner.invoke(cli_app, ["--version"])
     assert result.exit_code == 0
     assert "fastapi-jet" in result.stdout
-    assert "1.1.5" in result.stdout
+    assert "1.2.0" in result.stdout
 
 
 def test_cli_help():

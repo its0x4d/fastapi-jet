@@ -24,10 +24,11 @@ jobs:
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
+          version: "2.4.1"
 
       - name: Build package
         run: |
-          poetry install
+          poetry install --no-interaction
           poetry build
 
       - name: Publish to PyPI

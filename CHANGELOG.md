@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-07-02
+
 ### Added
 - `startapp --register` — AST-safe auto-registration in `INSTALLED_APPS`
 - `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, GitHub issue/PR templates
@@ -40,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `name_fixer` uses `str.translate` for single-pass sanitization
 - `importlib.import_module` replaces `__import__` across routing utilities
 - Added `.cursor/rules/fastapi-jet.mdc` contributor standards for AI and humans
+- Minimum supported Python raised to 3.10 (CI matrix: 3.10–3.13)
 
 ### Fixed
 - `runserver` no longer passes project directory as Uvicorn `root_path`
@@ -48,3 +51,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `@fastapi_project` now exits with code 1 when outside a project
 - `include_routers` no longer mutates `apps_path` inside the loop
 - Generator no longer returns a success path when output already exists
+- CI on Python 3.13 (refreshed `poetry.lock` with Pydantic builds that ship cp313 wheels)
